@@ -7,24 +7,28 @@ spring:
 
   cloud:
     gateway:
-      mvc:
-        routes:
-          - id: authuser-service
-            uri: lb://EAD-AUTHUSER-SERVICE
-            predicates:
-              - Path=/ead-authuser/**
-          - id: course-service
-            uri: lb://EAD-COURSE-SERVICE
-            predicates:
-              - Path=/ead-course/**
-          - id: notification-service
-            uri: lb://EAD-NOTIFICATION-SERVICE
-            predicates:
-              - Path=/ead-notification/**
+      routes:
+        - id: authuser-service
+          uri: lb://EAD-AUTHUSER-SERVICE
+          predicates:
+            - Path=/ead-authuser/**
+        - id: course-service
+          uri: lb://EAD-COURSE-SERVICE
+          predicates:
+            - Path=/ead-course/**
+        - id: notification-service
+          uri: lb://EAD-NOTIFICATION-SERVICE
+          predicates:
+            - Path=/ead-notification/**
+
+ead:
+  serviceRegistry:
+    username: serviceRegistry
+    password: 'ead123sr'
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: 'http://localhost:8761/eureka'
+      defaultZone: 'http://${ead.serviceRegistry.username}:${ead.serviceRegistry.password}@localhost:8761/eureka'
   instance:
     hostname: localhost
